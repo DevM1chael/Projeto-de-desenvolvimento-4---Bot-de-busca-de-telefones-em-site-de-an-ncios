@@ -8,9 +8,9 @@ def buscar(url):
         if resposta.status_code == 200:
             print(resposta.text)
         else:
-            print(f"Erro ao fazer requisição: {resposta.status_code}")      
-    except Exception as e:
-        print("Erro ao fazer requisição")
-        print(e)
+            print("Erro ao fazer a requisição")
+    except Exception as error:
+        print("Erro ao fazer a requisição")
+        print(error)
 
 buscar(URL_AUTOMOVEIS)
