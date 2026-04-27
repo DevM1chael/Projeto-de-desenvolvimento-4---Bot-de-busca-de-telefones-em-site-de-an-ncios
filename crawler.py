@@ -25,6 +25,22 @@ def parsing(resposta_html):
         print("Erro ao fazer o parsing HTML")
         print(error)
 
+def encontrar_links(soup):
+    cards_pai = soup.find("div", class_="ui three doubling link cards")
+    cards = cards_pai.find_all("a")
+    
+    links = []
+    for card in cards:
+        link = card['href']
+        links.append(link)
+
+    return links
+
+
 resposta = buscar(URL_AUTOMOVEIS)
 if resposta:
     soup = parsing(resposta)
+
+    if soup:
+        links = encontrar_links(soup)
+        print(links)
