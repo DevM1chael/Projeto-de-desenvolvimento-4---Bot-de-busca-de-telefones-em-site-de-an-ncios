@@ -20,7 +20,7 @@ def buscar(url):
 def parsing(resposta_html):
     try:
         soup = BeautifulSoup(resposta_html, 'html.parser')
-        
+        return soup
     except Exception as error:
         print("Erro ao fazer o parsing HTML")
         print(error)
@@ -40,7 +40,6 @@ def encontrar_links(soup):
 resposta = buscar(URL_AUTOMOVEIS)
 if resposta:
     soup = parsing(resposta)
-
     if soup:
         links = encontrar_links(soup)
         print(links)
