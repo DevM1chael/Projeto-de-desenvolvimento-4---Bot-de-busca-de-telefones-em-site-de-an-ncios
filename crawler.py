@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 #||||||||||||||||||||||||||||||||||||||||||||||||||||
 # Beautiful Soup é uma biblioteca Python usada para extrair dados de arquivos HTML e XML.
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||
-
+DOMINIO = "https://django-anuncios.solyd.com.br"
 URL_AUTOMOVEIS = "https://django-anuncios.solyd.com.br/automoveis/"
 
 def buscar(url):
