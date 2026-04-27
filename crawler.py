@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 DOMINIO = "https://django-anuncios.solyd.com.br"
 URL_AUTOMOVEIS = "https://django-anuncios.solyd.com.br/automoveis/"
 
-def buscar(url):
+def requisicao(url):
     try:
         resposta = requests.get(url)
         if resposta.status_code == 200:
@@ -37,9 +37,9 @@ def encontrar_links(soup):
     return links
 
 
-resposta = buscar(URL_AUTOMOVEIS)
+resposta = requisicao(URL_AUTOMOVEIS)
 if resposta:
     soup = parsing(resposta)
     if soup:
         links = encontrar_links(soup)
-        print(links)
+        requisicao
