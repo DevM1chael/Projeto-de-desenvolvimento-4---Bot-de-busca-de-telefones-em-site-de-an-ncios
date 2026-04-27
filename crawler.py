@@ -1,6 +1,6 @@
 import requests
 
-URL_AUTOMOVEIS = "https://django-anuncios-solyd.com.br/automoveis/"
+URL_AUTOMOVEIS = "https://django-anuncios.solyd.com.br/automoveis/"
 
 def buscar(url):
     try:
