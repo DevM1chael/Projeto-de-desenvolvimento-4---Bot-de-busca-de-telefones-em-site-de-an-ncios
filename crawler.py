@@ -77,6 +77,17 @@ def descobrir_telefones():
                     for telefone in telefones:
                         print(f"Telefone encontrado:", telefone)
                         TELEFONES.append(telefone)
+                        salvar_telefone(telefone)
+
+def salvar_telefone(telefone):
+    string_telefone = "{}{}{}\n".format(telefone[0], telefone[1], telefone[2])
+    
+    try:
+        with open("telefones.csv", "a") as arquivo:
+            arquivo.write(string_telefone)
+    except Exception as error:
+        print("Erro ao salvar os telefones")
+        print(error)
 
 
 # --- INÍCIO DO PROGRAMA ---
