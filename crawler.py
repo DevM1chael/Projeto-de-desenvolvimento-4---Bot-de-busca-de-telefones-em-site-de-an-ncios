@@ -1,4 +1,5 @@
 import re
+import threading
 
 import requests
 from bs4 import BeautifulSoup
@@ -7,6 +8,9 @@ from bs4 import BeautifulSoup
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||
 DOMINIO = "https://django-anuncios.solyd.com.br"
 URL_AUTOMOVEIS = "https://django-anuncios.solyd.com.br/automoveis/"
+LINKS = []
+TELEFONES = []
+
 
 def requisicao(url):
     try:
@@ -56,18 +60,49 @@ def encontrar_telefone(soup):
     if regex:
         return regex
     
+def descobrir_telefones():
+    while True:
+        try:
+            links_anuncio = LINKS.pop(0)
+        except:
+            return None
+
+        resposta_anuncio = requisicao(DOMINIO + links_anuncio)
+
+        if resposta_anuncio:
+            soup_anuncio = parsing(resposta_anuncio)
+            if soup_anuncio:
+                telefones = encontrar_telefone(soup_anuncio)
+                if telefones:
+                    for telefone in telefones:
+                        print(f"Telefone encontrado:", telefone)
+                        TELEFONES.append(telefone)
 
 
+# --- INÍCIO DO PROGRAMA ---
+
+if __name__ == "__main__":
+    print("\n==================================================================================")
+    print("IniciandoCrawler de busca de telefones em anúncios classificados")
+    print("==================================================================================\n")
+
+    resposta_busca = requisicao(URL_AUTOMOVEIS)
+    if resposta_busca:
+        soup_busca = parsing(resposta_busca)
+        if soup_busca:
+            LINKS = encontrar_links(soup_busca)
+
+            THREADS = []
+            for i in range(10):
+                t = threading.Thread(target=descobrir_telefones).start()
+                THREADS.append(t)
 
 
-resposta_busca = requisicao(URL_AUTOMOVEIS)
-if resposta_busca:
-    soup_busca = parsing(resposta_busca)
-    if soup_busca:
-        links = encontrar_links(soup_busca)
-        for link in links:
-            resposta_anuncio = requisicao(DOMINIO + link)
-            if resposta_anuncio:
-                soup_anuncio = parsing(resposta_anuncio)
-                if soup_anuncio:
-                    print(encontrar_telefone(soup_anuncio))
+            for t in THREADS:
+                t.start()
+            
+            for t in THREADS:
+                t.join()
+            
+            print(TELEFONES)
+                
